@@ -9,12 +9,14 @@ clients = set()
 class ChatProtocol(WebSocketServerProtocol):
 
     def onConnect(self, request):
+        print (request)
         clients.add(self)
         print('connect')
 
-    def onMessage(self, msg):
+    def onMessage(self, msg, *args):
 
         print(msg)
+        print(args)
 
         for c in clients:
             if c is not self:
@@ -32,6 +34,6 @@ if __name__ == '__main__':
 
     loop = asyncio.get_event_loop()
 
-    asyncio.Task(loop.create_server(factory, '127.0.0.1', 8080))
+    asyncio.Task(loop.create_server(factory, '0.0.0.0', 8080))
 
     loop.run_forever()
